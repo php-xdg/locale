@@ -33,6 +33,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+          extensions: intl
           coverage: pcov
           tools: composer:v2, phpunit
 
