@@ -3,6 +3,7 @@
 namespace Xdg\Locale\Tests\Platform;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Xdg\Locale\Exception\InvalidLocaleException;
 use Xdg\Locale\Locale;
@@ -12,17 +13,15 @@ abstract class PlatformTestCase extends TestCase
 {
     abstract protected static function createPlatform(): PlatformInterface;
 
-    /**
-     * @dataProvider parseProvider
-     */
+    #[DataProvider('parseProvider')]
     final public function testParse(string $input, Locale $expected): void
     {
         Assert::assertEquals($expected, static::createPlatform()->parse($input));
     }
 
-    abstract public function parseProvider(): iterable;
+    abstract public static function parseProvider(): iterable;
 
-    protected function posixLanguageTagProvider(): iterable
+    protected static function posixLanguageTagProvider(): iterable
     {
         $tests = [
             'll' => ['ll', null, null, null],
@@ -39,7 +38,7 @@ abstract class PlatformTestCase extends TestCase
         }
     }
 
-    protected function ietfLanguageTagProvider(): iterable
+    protected static function ietfLanguageTagProvider(): iterable
     {
         $tests = [
             'll-CC' => ['ll', 'CC'],
@@ -52,16 +51,14 @@ abstract class PlatformTestCase extends TestCase
         }
     }
 
-    /**
-     * @dataProvider invalidLocaleStringProvider
-     */
+    #[DataProvider('invalidLocaleStringProvider')]
     final public function testInvalidLocaleString(string $input): void
     {
         $this->expectException(InvalidLocaleException::class);
         static::createPlatform()->parse($input);
     }
 
-    public function invalidLocaleStringProvider(): iterable
+    public static function invalidLocaleStringProvider(): iterable
     {
         yield ['_.@'];
         yield ['---'];

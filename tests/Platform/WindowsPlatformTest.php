@@ -13,10 +13,10 @@ final class WindowsPlatformTest extends PlatformTestCase
         return new WindowsPlatform();
     }
 
-    public function parseProvider(): iterable
+    public static function parseProvider(): iterable
     {
-        yield from $this->posixLanguageTagProvider();
-        yield from $this->ietfLanguageTagProvider();
+        yield from self::posixLanguageTagProvider();
+        yield from self::ietfLanguageTagProvider();
 
         $tests = [
             'chinese' => ['zh'],

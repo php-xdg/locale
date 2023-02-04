@@ -2,6 +2,6 @@
 
 namespace Xdg\Locale\Exception;
 
-class LocaleException extends \RuntimeException
+interface LocaleException extends \Throwable
 {
 }

@@ -2,6 +2,6 @@
 
 namespace Xdg\Locale\Exception;
 
-final class InvalidLocaleException extends LocaleException
+final class InvalidLocaleException extends \DomainException implements LocaleException
 {
 }

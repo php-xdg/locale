@@ -3,6 +3,7 @@
 namespace Xdg\Locale\Tests;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Xdg\Locale\Locale;
 
@@ -19,15 +20,13 @@ final class LocaleTest extends TestCase
         Assert::assertEquals(Locale::new('ll'), Locale::of('ll'));
     }
 
-    /**
-     * @dataProvider toStringProvider
-     */
+    #[DataProvider('toStringProvider')]
     public function testToString(Locale $locale, string $expected): void
     {
         Assert::assertSame($expected, (string)$locale);
     }
 
-    public function toStringProvider(): iterable
+    public static function toStringProvider(): iterable
     {
         $tests = [
             // POSIX
@@ -45,15 +44,13 @@ final class LocaleTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getVariantsProvider
-     */
+    #[DataProvider('getVariantsProvider')]
     public function testGetVariants(Locale $locale, array $expected): void
     {
         Assert::assertSame($expected, $locale->getVariants());
     }
 
-    public function getVariantsProvider(): iterable
+    public static function getVariantsProvider(): iterable
     {
         yield 'll' => [
             Locale::new('ll'),
@@ -89,15 +86,13 @@ final class LocaleTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider matchesProvider
-     */
+    #[DataProvider('matchesProvider')]
     public function testMatches(Locale $locale, Locale|string $other, bool $expected): void
     {
         Assert::assertSame($expected, $locale->matches($other));
     }
 
-    public function matchesProvider(): iterable
+    public static function matchesProvider(): iterable
     {
         $variants = ['ll_CC.foo@bar', 'll_CC@bar', 'll.foo@bar', 'll@bar', 'll_CC.foo', 'll_CC', 'll.foo', 'll'];
         $createCase = static function(Locale $locale, array $matches) use ($variants) {
@@ -155,15 +150,13 @@ final class LocaleTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider selectProvider
-     */
+    #[DataProvider('selectProvider')]
     public function testSelect(Locale $locale, array $candidates, ?string $expected): void
     {
         Assert::assertSame($expected, $locale->select($candidates));
     }
 
-    public function selectProvider(): iterable
+    public static function selectProvider(): iterable
     {
         yield 'll selects nothing in ["fr"]' => [
             Locale::new('ll'), ['fr'], null,
